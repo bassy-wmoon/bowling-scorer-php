@@ -14,7 +14,6 @@ $allScores = [
 ];
 
 $total = 0;
-$isPreviousFrameSpare = false;
 $spareTemp = 0;
 
 for($i = 1; $i <= 10; $i++) {
@@ -26,18 +25,10 @@ for($i = 1; $i <= 10; $i++) {
     if ($i <= 9) {
 
         echo "1投目: $scores[0]" . " " . "2投目: $scores[1]\n";
-
-        if ($isPreviousFrameSpare) {
-            $total = $spareTemp + $scores[0];
-            $isPreviousFrameSpare = false;
-            echo "前フレームのtotal = $total\n";
-        }
         
-        if ($scores[0] + $scores[1] == 10 && !$isPreviousFrameSpare) {
-            $isPreviousFrameSpare = true;
-            $spareTemp = $total + $scores[0] + $scores[1];
-            echo "spareTemp = $spareTemp\n";
-            continue;
+        // スペアの場合次の1投を足す
+        if ($scores[0] + $scores[1] == 10) {
+            $total += $allScores[$i + 1][0];
         }
 
         $total += $scores[0] + $scores[1];
@@ -45,17 +36,10 @@ for($i = 1; $i <= 10; $i++) {
 
     } else {
         echo "1投目: $scores[0]" . " " . "2投目: $scores[1]" . " " . "3投目: $scores[2]\n";
-
-        if ($isPreviousFrameSpare) {
-            $total = $spareTemp + $scores[0];
-            $isPreviousFrameSpare = false;
-            echo "前フレームのtotal = $total\n";
-        }
         
+        // スペアの場合3投目を足す
         if ($scores[0] + $scores[1] == 10) {
-            $total += $scores[0] + $scores[1] + $scores[2];
-            echo "現フレームのtotal = $total\n";
-            break;
+            $total += $scores[2];
         }
 
         $total += $scores[0] + $scores[1];
